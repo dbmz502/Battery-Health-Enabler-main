@@ -55,27 +55,26 @@ jobs:
           echo "ctime=${T2}" >> $GITHUB_ENV
           echo "ctimestamp=${TS}" >> $GITHUB_ENV
           echo "shorthash=${SHASH}" >> $GITHUB_ENV
-          
+
       - name: Build
         run: |
           set -x
           sudo security import Exploits/fastPath/arm.pfx -k /Library/Keychains/System.keychain -P password -A
           export BASEDIR="$(pwd)"
           export THEOS="${BASEDIR}/theos"
-          make -j$(sysctl -n hw.physicalcpu)     
-
+          make -j$(sysctl -n hw.physicalcpu)
 
       - name: Upload Latest Artifact
-        id: dopamine-latest-upload
+        id: BatteryHealthEnabler-latest-upload
         uses: actions/upload-artifact@v3
         with:
-          name: Dopamine_Latest
+          name: BatteryHealthEnabler_Latest
           path: |
             ${{ github.workspace }}/packages/com.ps.batteryhealthenabler_1.0.0_iphoneos-arm.deb
       # - name: Upload Hashed Artifact
-      #   id: dopamine-hashed-upload
+      #   id: BatteryHealthEnabler-hashed-upload
       #   uses: actions/upload-artifact@v3
       #   with:
-      #     name: Dopamine_${{ env.shorthash }}_${{ env.ctime }}
+      #     name: BatteryHealthEnabler_${{ env.shorthash }}_${{ env.ctime }}
       #     path: |
-      #       ${{ github.workspace }}/Dopamine/Dopamine_${{ env.shorthash }}_${{ env.ctime }}.tipa
+      #       ${{ github.workspace }}/BatteryHealthEnabler/BatteryHealthEnabler_${{ env.shorthash }}_${{ env.ctime }}.tipa
