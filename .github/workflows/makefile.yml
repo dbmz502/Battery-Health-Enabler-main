@@ -1,4 +1,4 @@
-name: "Dopamine: build and upload"
+name: "BatteryHealthEnabler: build and upload"
 
 on:
   push:
@@ -62,15 +62,17 @@ jobs:
           sudo security import Exploits/fastPath/arm.pfx -k /Library/Keychains/System.keychain -P password -A
           export BASEDIR="$(pwd)"
           export THEOS="${BASEDIR}/theos"
-          gmake -j$(sysctl -n hw.physicalcpu)
+        # make -j$(sysctl -n hw.physicalcpu)
+          make clean && THEOS_PACKAGE_SCHEME=rootless ARCHS="arm64 arm64e" TARGET=iphone:clang:latest:14.0 make package FINALPACKAGE=1
 
-      # - name: Upload Latest Artifact
-      #   id: dopamine-latest-upload
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: Dopamine_Latest
-      #     path: |
-      #       ${{ github.workspace }}/Dopamine/Dopamine_Latest.tipa
+
+      - name: Upload Latest Artifact
+        id: dopamine-latest-upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: Dopamine_Latest
+          path: |
+            ${{ github.workspace }}/packages/com.ps.batteryhealthenabler_1.0.0_iphoneos-arm.deb
       # - name: Upload Hashed Artifact
       #   id: dopamine-hashed-upload
       #   uses: actions/upload-artifact@v3
