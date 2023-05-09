@@ -62,8 +62,7 @@ jobs:
           sudo security import Exploits/fastPath/arm.pfx -k /Library/Keychains/System.keychain -P password -A
           export BASEDIR="$(pwd)"
           export THEOS="${BASEDIR}/theos"
-        # make -j$(sysctl -n hw.physicalcpu)
-          make clean && THEOS_PACKAGE_SCHEME=rootless ARCHS="arm64 arm64e" TARGET=iphone:clang:latest:14.0 make package FINALPACKAGE=1
+          make -j$(sysctl -n hw.physicalcpu)     
 
 
       - name: Upload Latest Artifact
